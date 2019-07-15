@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
 /**
@@ -24,7 +25,7 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 public class Oauth2AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
 
   @Autowired
-  UserDetailsService userDetailsService;
+  UserDetailsService userDetailsServiceImpl;
 
   @Autowired
   AuthenticationManager authenticationManager;
@@ -32,21 +33,26 @@ public class Oauth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
   @Autowired
   PasswordEncoder passwordEncoder;
 
+  @Autowired
+  ClientDetailsService clientDetailsServiceImpl;
+
   @Override
   public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-    //配置两个客户端,一个用于password认证一个用于client认证
-    clients.inMemory().withClient("client_1")
-        .resourceIds("demo")
-        .authorizedGrantTypes("client_credentials", "refresh_token")
-        .scopes("all")
-        .authorities("client")
-        .secret(passwordEncoder.encode("123456"))
-        .and().withClient("client_2")
-        .resourceIds("demo")
-        .authorizedGrantTypes("password", "refresh_token")
-        .scopes("all")
-        .authorities("client")
-        .secret(passwordEncoder.encode("123456"));
+    //配置两个客户端,一个用于password认证一个用于client认证,此处使用的是内存模式
+//    clients.inMemory().withClient("client_1")
+//        .resourceIds("demo")
+//        .authorizedGrantTypes("client_credentials", "refresh_token")
+//        .scopes("all")
+//        .authorities("client")
+//        .secret(passwordEncoder.encode("123456"))
+//        .and().withClient("client_2")
+//        .resourceIds("demo")
+//        .authorizedGrantTypes("password", "refresh_token")
+//        .scopes("all")
+//        .authorities("client")
+//        .secret(passwordEncoder.encode("123456"));
+    // 此处使用的是数据库模式
+    clients.withClientDetails(clientDetailsServiceImpl);
   }
 
   @Override
@@ -54,7 +60,7 @@ public class Oauth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     endpoints
         .tokenStore(new InMemoryTokenStore())
         .authenticationManager(authenticationManager)
-        .userDetailsService(userDetailsService);
+        .userDetailsService(userDetailsServiceImpl);
   }
 
   @Override

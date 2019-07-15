@@ -31,7 +31,7 @@ public class User {
   /**
    * 用户名
    * */
-  @Column(name = "user_name",length = 80)
+  @Column(name = "user_name",length = 80,unique = true)
   private String userName;
   /**
    * 用户密码
@@ -68,8 +68,9 @@ public class User {
   @Column
   private boolean enabled;
 
-  @OneToMany
-  @JoinTable(name = "user_to_role",joinColumns = )
+  @ManyToMany
+  @JoinTable(name = "user_to_role",joinColumns = {@JoinColumn(name = "user_id")},
+  inverseJoinColumns = {@JoinColumn(name = "role_id")})
   private Set<Role> roles;
 
 

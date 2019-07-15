@@ -10,4 +10,7 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://10.10.11.124:3306/oauth2?createDatabaseIfNotExist=true
-    username:
+    username: root
+    password: root@local
+  flyway:
+    baseline-on-migrate: true

@@ -4,16 +4,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * @Classname UserResportity
+ * @Classname RoleRepository
  * @Description
- * @Date 2019/7/15 14:52
+ * @Date 2019/7/15 16:38
  * @Created by ZLW
  * @Author zlw
  */
 @Repository
-public interface UserRepository extends JpaRepository<User,Long> {
-
-  User findFirstByUserName(String userName);
-
-
+public interface RoleRepository extends JpaRepository<Role,Long> {
 }

@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @Classname Client
@@ -44,7 +46,7 @@ public class Client {
   private boolean scoped;
 
   /**
-   * 回调地址
+   * 回调地址,支持多个，需要“,”隔开
    * */
   @Column(name = "redirect_uri")
   private String registeredRedirectUri;
@@ -56,10 +58,33 @@ public class Client {
   private Long accessTokenValiditySeconds;
 
   /**
+   * 支持的验证类型,支持多个，需要“,”隔开
+   * */
+  @Column(name = "authorized_granttype")
+  private String authorizedGrantTypes;
+
+  /**
+   * 支持的角色类型,支持多个，需要“,”隔开
+   * */
+  @Column
+  private String authorities;
+
+  /**
    * token刷新有效时间
    * */
   @Column(name = "refresh_token_validity_seconds")
   private Long refreshTokenValiditySeconds;
+
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "client_to_resource",joinColumns = {@JoinColumn(name = "client_id")},
+  inverseJoinColumns = {@JoinColumn(name = "resource_id")})
+  private Set<Resource> resources;
+
+
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "client_to_scope",joinColumns = {@JoinColumn(name = "client_id")},
+      inverseJoinColumns = {@JoinColumn(name = "scope_id")})
+  private Set<Scope> scopes;
 
 
 }

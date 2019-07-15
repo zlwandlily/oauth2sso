@@ -1,4 +1,4 @@
-package com.oauth2.sso.domain.user;
+package com.oauth2.sso.domain.client;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,28 +8,29 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 /**
- * @Classname UserToRole
+ * @Classname Resource
  * @Description
- * @Date 2019/7/15 15:31
+ * @Date 2019/7/15 16:01
  * @Created by ZLW
  * @Author zlw
  */
-@Entity(name = "user_to_role")
+@Entity(name = "resource")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserToRole {
+public class Resource {
+
   /**
-   * 主键，自增
+   * 主键
    * */
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "user_id")
-  private Long userId;
-
-  @Column(name = "role_id")
-  private Long roleId;
+  /**
+   * 资源名称
+   * */
+  @Column(name = "resource_name")
+  private String resourceName;
 }

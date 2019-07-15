@@ -4,10 +4,8 @@ import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.provider.ClientDetails;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @Classname ClientMysqlDetails
@@ -28,7 +26,7 @@ public class ClientMysqlDetails implements ClientDetails {
 
   @Override
   public Set<String> getResourceIds() {
-    return null;
+    return client.getResources().stream().map(x -> x.getResourceName()).collect(Collectors.toSet());
   }
 
   @Override
@@ -48,22 +46,22 @@ public class ClientMysqlDetails implements ClientDetails {
 
   @Override
   public Set<String> getScope() {
-    return null;
+    return client.getScopes().stream().map(x -> x.getScopeName()).collect(Collectors.toSet());
   }
 
   @Override
   public Set<String> getAuthorizedGrantTypes() {
-    return null;
+    return Arrays.stream(client.getAuthorizedGrantTypes().split(",")).collect(Collectors.toSet());
   }
 
   @Override
   public Set<String> getRegisteredRedirectUri() {
-    return null;
+    return Arrays.stream(client.getRegisteredRedirectUri().split(",")).collect(Collectors.toSet());
   }
 
   @Override
   public Collection<GrantedAuthority> getAuthorities() {
-    return null;
+    return Arrays.stream(client.getAuthorities().split(",")).map(x -> (GrantedAuthority) () -> x).collect(Collectors.toSet());
   }
 
   @Override
