@@ -50,8 +50,8 @@ public class UserRepositoryTest  extends SsoApplicationTests {
   @Test
   public void saveTest(){
     userRepository.save(User.builder()
-        .userName("zlw")
-        .passWord(passwordEncoder.encode("zlw"))
+        .userName("admin")
+        .passWord(passwordEncoder.encode("admin"))
         .accountNonExpired(true)
         .accountNonLocked(true)
         .credentialsNonExpired(true)

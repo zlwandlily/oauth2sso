@@ -62,15 +62,15 @@ public class ClientRepositoryTest extends SsoApplicationTests {
   @Test
   public void saveTest(){
     clientRepository.save(Client.builder()
-    .clientId("zlw")
-    .clientSecret(passwordEncoder.encode("zlw"))
+    .clientId("admin")
+    .clientSecret(passwordEncoder.encode("admin"))
     .authorities("ADMIN,USER,SUPERADMIN")
     .authorizedGrantTypes("authorization_code,password,client_credentials,refresh_token,implicit")
     .resources(resourceRepository.findAll().stream().collect(Collectors.toSet()))
     .scopes(scopeRepository.findAll().stream().collect(Collectors.toSet()))
     .accessTokenValiditySeconds(600L)
     .refreshTokenValiditySeconds(3600L)
-    .registeredRedirectUri("http://loaclhost:8081/callback")
+    .registeredRedirectUri("http://loaclhost:8081/callback?uuid=")
     .secretRequired(true)
     .scoped(true)
     .build());
